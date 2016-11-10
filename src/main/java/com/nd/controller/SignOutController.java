@@ -40,7 +40,7 @@ public class SignOutController {
 		binder.setValidator(signInValidator);
 	}
 	
-	@RequestMapping(value = "/nextdigit/v1/useraccess/signin", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/nextdigit/v1/useraccess/signout", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.OK)
 	public UserAccessResponse signIn(final HttpServletRequest request, final HttpServletResponse response,
 			@RequestBody @Valid UserAccessRequest signInRequest) throws Exception {
