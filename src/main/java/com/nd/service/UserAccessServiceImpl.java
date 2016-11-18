@@ -2,8 +2,9 @@ package com.nd.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.nd.entities.UserAccessRequest;
-import com.nd.entities.UserAccessResponse;
+
+import com.nd.request.UserAccessRequest;
+import com.nd.response.UserAccessResponse;
 import com.nd.utils.TokenGenerator;
 
 @Service
