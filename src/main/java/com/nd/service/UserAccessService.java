@@ -1,7 +1,7 @@
 package com.nd.service;
 
-import com.nd.entities.UserAccessRequest;
-import com.nd.entities.UserAccessResponse;
+import com.nd.request.UserAccessRequest;
+import com.nd.response.UserAccessResponse;
 
 public interface UserAccessService {
 	UserAccessResponse signUp(UserAccessRequest signUpRequest) throws Exception;
