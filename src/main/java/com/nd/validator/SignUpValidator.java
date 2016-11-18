@@ -5,7 +5,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import com.nd.entities.UserAccessRequest;
+import com.nd.request.UserAccessRequest;
 
 @Component
 public class SignUpValidator implements Validator {

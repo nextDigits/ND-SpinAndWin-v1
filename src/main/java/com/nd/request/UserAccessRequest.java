@@ -1,4 +1,4 @@
-package com.nd.entities;
+package com.nd.request;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
