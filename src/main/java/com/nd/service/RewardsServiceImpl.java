@@ -7,6 +7,11 @@ import com.nd.request.UserAccessRequest;
 import com.nd.response.UserAccessResponse;
 import com.nd.utils.TokenGenerator;
 
+/**
+ * @author NextDigit
+ *
+ */
+
 @Service
 public class RewardsServiceImpl implements RewardsService {
 	
