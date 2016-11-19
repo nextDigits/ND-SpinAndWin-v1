@@ -1,7 +1,15 @@
 /**
  * 
  */
-package com.nd.dao.impl;
+package com.nd.dao;
+
+import java.util.Properties;
+
+import javax.mail.Message;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 import org.springframework.stereotype.Component;
 
@@ -11,8 +19,6 @@ import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.QueryResults;
 import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
-import com.nd.dao.RewardsDao;
-import com.nd.response.UserAccessResponse;
 
 /**
  * @author NextDigit
@@ -37,6 +43,19 @@ public class RewardsDaoImpl implements RewardsDao {
 			System.out.println("Success");
 			break;
 		}
+		Properties props = new Properties();
+		Session session = Session.getDefaultInstance(props, null);
+
+		try {
+		  Message msg = new MimeMessage(session);
+		  msg.setFrom(new InternetAddress("damodaranamith@gmail.com", "Admin"));
+		  msg.addRecipient(Message.RecipientType.TO,
+		                   new InternetAddress("kirankuriangits@gmail.com", "Mr. User"));
+		  msg.setSubject("Your have"+userId+"points available!!!");
+		  Transport.send(msg);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
 		return points;
 	}
 
