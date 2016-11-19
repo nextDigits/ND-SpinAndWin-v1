@@ -1,5 +1,5 @@
 package com.nd.dao;
 
-public interface UserAccessDao {
+public interface UserDao {
 	void saveUser();
 }
