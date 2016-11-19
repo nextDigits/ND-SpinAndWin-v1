@@ -11,3 +11,5 @@ target/UserAccessService-0.0.1-SNAPSHOT.jar.original
 target/maven-archiver/pom.properties
 target/classes/META-INF/maven/com.nd/SpinAndWin/pom.properties
 .project
+target/appengine-staging/app.yaml
+target/SpinAndWin-0.0.1-SNAPSHOT.jar.original
