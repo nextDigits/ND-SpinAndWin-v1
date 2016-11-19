@@ -3,6 +3,7 @@ package com.nd.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.nd.dao.UserDao;
 import com.nd.request.UserAccessRequest;
 import com.nd.response.UserAccessResponse;
 import com.nd.utils.TokenGenerator;
@@ -12,9 +13,12 @@ public class UserAccessServiceImpl implements UserAccessService {
 	
 	public final TokenGenerator tokenGenerator;
 	
+	public final UserDao userDao;
+	
 	@Autowired
-	public UserAccessServiceImpl(TokenGenerator tokenGenerator){
+	public UserAccessServiceImpl(TokenGenerator tokenGenerator,UserDao userDao){
 		this.tokenGenerator = tokenGenerator;
+		this.userDao=userDao;
 	}
 	
 	@Override
@@ -26,6 +30,7 @@ public class UserAccessServiceImpl implements UserAccessService {
 		signUpResponse.setRefreshToken(tokenGenerator.generateToken());
 		signUpResponse.setValidationRequired("Phone");
 		signUpResponse.setUserId(tokenGenerator.generateUserId(signUpRequest.getAppName(),signUpRequest.getPhoneNumber(),signUpRequest.getFirstName()));
+		userDao.saveUser();
 		return signUpResponse;
 	}
 
