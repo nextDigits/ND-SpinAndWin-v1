@@ -14,6 +14,7 @@ import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.QueryResults;
 import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
 import com.nd.dao.UserDao;
+import com.nd.request.UserAccessRequest;
 import com.nd.response.UserAccessResponse;
 
 /**
@@ -25,25 +26,37 @@ public class UserDaoImpl implements UserDao {
 
 	private final Datastore datastore = DatastoreOptions.defaultInstance().service();
 	
-	// Create a Key factory to construct keys associated with this project.
-	private final KeyFactory keyFactory = datastore.newKeyFactory().kind("USER");
-
+	
 	@Override
-	public void saveUser() {
+	public void saveUser(UserAccessRequest signUpRequest) {
+		KeyFactory keyFactory = datastore.newKeyFactory().kind("USER");
 		Key key = datastore.allocateId(keyFactory.newKey());
 		  Entity task = Entity.builder(key)
-		      .set("userid", "test2")
-		      .set("addresslineone", "3501 Xenium Ln")
-		      .set("addresslinetwo", "Plymouth")
-		      .set("appname", "clover")
-		      .set("country", "India")
-		      .set("deviceid", "asdf")
-		      .set("emailid", "test@gmail.com")
-		      .set("firstname", "Kiran")
-		      .set("lastname", "Kurian")
-		      .set("password", "asdf1234")
-		      .set("phonenumber", "2241232121")
-		      .set("state", "Kerala")
+		      .set("userid", signUpRequest.getUserId())
+		      .set("addresslineone", signUpRequest.getAddressFirstLine())
+		      .set("addresslinetwo", signUpRequest.getAddressNextLine())
+		      .set("appname", signUpRequest.getAppName())
+		      .set("country", signUpRequest.getCountry())
+		      .set("deviceid", signUpRequest.getDeviceId())
+		      .set("emailid", signUpRequest.getEmailId())
+		      .set("firstname", signUpRequest.getFirstName())
+		      .set("lastname", signUpRequest.getLastName())
+		      .set("password", signUpRequest.getPassword())
+		      .set("phonenumber", signUpRequest.getPhoneNumber())
+		      .set("state", signUpRequest.getState())
+		      .build();
+		  datastore.put(task);
+		
+	}
+
+	@Override
+	public void saveUserAccess(UserAccessRequest signUpRequest) {
+		KeyFactory keyFactory = datastore.newKeyFactory().kind("USER_ACCESS");
+		Key key = datastore.allocateId(keyFactory.newKey());
+		  Entity task = Entity.builder(key)
+		      .set("userid", signUpRequest.getUserId())
+		      .set("accesstoken",signUpRequest.getAccessToken())
+		      .set("refreshtoken",signUpRequest.getRefreshToken())
 		      .build();
 		  datastore.put(task);
 		

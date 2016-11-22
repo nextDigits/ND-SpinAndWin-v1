@@ -40,7 +40,7 @@ public class SignUpController {
 		binder.setValidator(signUpValidator);
 	}
 
-	@RequestMapping(value = "/nextdigit/v1/useraccess/signup", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/api/v1/useraccess/signup", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.OK)
 	public UserAccessResponse signUp(final HttpServletRequest request, final HttpServletResponse response,
 			@RequestBody @Valid UserAccessRequest signUpRequest) throws Exception {
