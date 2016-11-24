@@ -30,8 +30,6 @@ public class UserAccessServiceImpl implements UserAccessService {
 		
 		//Save user to user table
 		userDao.saveUser(signUpRequest);
-		//Save user to user access table
-		userDao.saveUserAccess(signUpRequest);
 		
 		//Set response
 		signUpResponse.setUserId(signUpRequest.getUserId());

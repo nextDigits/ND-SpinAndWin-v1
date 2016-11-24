@@ -44,7 +44,6 @@ public class SignUpController {
 	@ResponseStatus(HttpStatus.OK)
 	public UserAccessResponse signUp(final HttpServletRequest request, final HttpServletResponse response,
 			@RequestBody @Valid UserAccessRequest signUpRequest) throws Exception {
-		signUpRequest.setAppName(request.getHeader("appName"));
 		return userAccessService.signUp(signUpRequest);
 	}
 }

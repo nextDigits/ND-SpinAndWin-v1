@@ -6,6 +6,7 @@ import com.nd.request.UserAccessRequest;
 
 @Component
 public interface UserDao {
+	
+	//Save user and user access information
 	void saveUser(UserAccessRequest signUpRequest);
-	void saveUserAccess(UserAccessRequest signUpRequest);
 }
