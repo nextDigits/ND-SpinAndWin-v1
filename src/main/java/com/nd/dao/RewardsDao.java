@@ -5,8 +5,6 @@ package com.nd.dao;
 
 import org.springframework.stereotype.Component;
 
-import com.nd.response.UserAccessResponse;
-
 /**
  * @author NextDigit
  *
@@ -14,6 +12,12 @@ import com.nd.response.UserAccessResponse;
 @Component
 public interface RewardsDao {
 
-	String getAvailablePoints(String string);
+	/**
+	  * Returns the available reward points of a user at any given point of time.
+	  * 
+	  * @param userId
+	  * @return available points
+	  */
+	public String getAvailablePoints(String userId);
 
 }

@@ -1,15 +1,7 @@
 /**
  * 
- *//*
+ */
 package com.nd.dao.impl;
-
-import java.util.Properties;
-
-import javax.mail.Message;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 
 import org.springframework.stereotype.Component;
 
@@ -21,15 +13,21 @@ import com.google.cloud.datastore.QueryResults;
 import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
 import com.nd.dao.RewardsDao;
 
-*//**
+/**
  * @author NextDigit
  *
- *//*
+ */
 @Component
 public class RewardsDaoImpl implements RewardsDao {
 
 	private final Datastore datastore = DatastoreOptions.defaultInstance().service();
-	
+
+	/**
+	  * Returns the available reward points of a user at any given point of time.
+	  * 
+	  * @param userId
+	  * @return available points
+	  */
 	@Override
 	public String getAvailablePoints(String userId) {
 		Query<Entity> query = Query.entityQueryBuilder()
@@ -41,24 +39,21 @@ public class RewardsDaoImpl implements RewardsDao {
 		while(tasks.hasNext()){
 			Entity task = tasks.next();
 			points = task.getString("availablepoints");
-			System.out.println("Success");
 			break;
 		}
-		Properties props = new Properties();
-			Session session = Session.getDefaultInstance(props, null);
-
-		try {
-		  Message msg = new MimeMessage(session);
-		  msg.setFrom(new InternetAddress("damodaranamith@gmail.com", "Admin"));
-		  msg.addRecipient(Message.RecipientType.TO,
-		                   new InternetAddress("kirankuriangits@gmail.com", "Mr. User"));
-		  msg.setSubject("Your have"+userId+"points available!!!");
-		  Transport.send(msg);
-		} catch (Exception e) {
-			e.printStackTrace();
-		} 
+//		Properties props = new Properties();
+//		Session session = Session.getDefaultInstance(props, null);
+//		try {
+//		  Message msg = new MimeMessage(session);
+//		  msg.setFrom(new InternetAddress("damodaranamith@gmail.com", "Admin"));
+//		  msg.addRecipient(Message.RecipientType.TO,
+//		                   new InternetAddress("kirankuriangits@gmail.com", "Mr. User"));
+//		  msg.setSubject("Your have"+userId+"points available!!!");
+//		  Transport.send(msg);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		} 
 		return points;
 	}
 
 }
-*/
