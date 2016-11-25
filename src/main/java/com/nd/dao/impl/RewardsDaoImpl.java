@@ -1,7 +1,7 @@
 /**
  * 
- */
-package com.nd.dao;
+ *//*
+package com.nd.dao.impl;
 
 import java.util.Properties;
 
@@ -19,11 +19,12 @@ import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.QueryResults;
 import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
+import com.nd.dao.RewardsDao;
 
-/**
+*//**
  * @author NextDigit
  *
- */
+ *//*
 @Component
 public class RewardsDaoImpl implements RewardsDao {
 
@@ -44,7 +45,7 @@ public class RewardsDaoImpl implements RewardsDao {
 			break;
 		}
 		Properties props = new Properties();
-		Session session = Session.getDefaultInstance(props, null);
+			Session session = Session.getDefaultInstance(props, null);
 
 		try {
 		  Message msg = new MimeMessage(session);
@@ -60,3 +61,4 @@ public class RewardsDaoImpl implements RewardsDao {
 	}
 
 }
+*/

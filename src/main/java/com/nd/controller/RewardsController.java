@@ -1,6 +1,6 @@
 /**
  * 
- */
+ *//*
 package com.nd.controller;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,10 +21,10 @@ import com.nd.dao.RewardsDao;
 import com.nd.request.UserAccessRequest;
 import com.nd.response.UserAccessResponse;
 
-/**
+*//**
  * @author NextDigit
  *
- */
+ *//*
 
 @Validated
 @RestController
@@ -41,3 +41,4 @@ public class RewardsController {
 	}
 
 }
+*/
