@@ -4,14 +4,17 @@
 package com.nd.dao.impl;
 
 import org.springframework.stereotype.Component;
-
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.Key;
 import com.google.cloud.datastore.KeyFactory;
+import com.google.cloud.datastore.Query;
+import com.google.cloud.datastore.QueryResults;
+import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
 import com.google.cloud.datastore.Transaction;
 import com.nd.dao.UserDao;
+import com.nd.entities.User;
 import com.nd.request.UserAccessRequest;
 
 /**
@@ -27,7 +30,7 @@ public class UserDaoImpl implements UserDao {
 	public void saveUser(UserAccessRequest signUpRequest) {
 		Transaction transaction = datastore.newTransaction();
 		try {
-			//Set USER
+			// Set USER
 			KeyFactory keyFactory = datastore.newKeyFactory().kind("USER");
 			Key key = datastore.allocateId(keyFactory.newKey());
 			Entity user = Entity.builder(key).set("userid", signUpRequest.getUserId())
@@ -39,8 +42,8 @@ public class UserDaoImpl implements UserDao {
 					.set("password", signUpRequest.getPassword()).set("phonenumber", signUpRequest.getPhoneNumber())
 					.set("state", signUpRequest.getState()).build();
 			transaction.put(user);
-			
-			//Set USER_ACCEESS
+
+			// Set USER_ACCEESS
 			keyFactory = datastore.newKeyFactory().kind("USER_ACCESS");
 			key = datastore.allocateId(keyFactory.newKey());
 			Entity userAccess = Entity.builder(key).set("userid", signUpRequest.getUserId())
@@ -48,7 +51,7 @@ public class UserDaoImpl implements UserDao {
 					.set("refreshtoken", signUpRequest.getRefreshToken()).build();
 			transaction.put(userAccess);
 			transaction.commit();
-			
+
 		} finally {
 			if (transaction.active()) {
 				transaction.rollback();
@@ -56,4 +59,46 @@ public class UserDaoImpl implements UserDao {
 		}
 
 	}
+
+	@Override
+	public User getUser(String userId, String loginType, boolean getCompleteProfile) {
+		Query<Entity> query = Query.entityQueryBuilder().kind("USER").filter(PropertyFilter.eq(loginType, userId))
+				.build();
+		QueryResults<Entity> tasks = datastore.run(query);
+		User user = new User();
+		while (tasks.hasNext()) {
+			Entity task = tasks.next();
+			user.setUserId(task.getString("userid"));
+			if (getCompleteProfile) {
+				user.setAddresslineone(task.getString("addresslineon"));
+				user.setAddresslinetwo(task.getString("addresslinetwo"));
+				user.setAppName(task.getString("appname"));
+				user.setCountry(task.getString("country"));
+				user.setDeviceId(task.getString("deviceid"));
+				user.setEmailId(task.getString("emailid"));
+				user.setFirstName(task.getString("firstname"));
+				user.setLastName(task.getString("lastname"));
+				user.setPhoneNumber(task.getString("phonenumber"));
+				user.setState(task.getString("state"));
+			}
+			break;
+		}
+		return user;
+	}
+
+	@Override
+	public User getUserAccessInfo(User user) {
+		Query<Entity> query = Query.entityQueryBuilder().kind("USER_ACCESS")
+				.filter(PropertyFilter.eq("userid", user.getUserId())).build();
+		QueryResults<Entity> tasks = datastore.run(query);
+		while (tasks.hasNext()) {
+			Entity task = tasks.next();
+			user.setAccessToken(task.getString("accesstoken"));
+			user.setRefreshToken(task.getString("refreshtoken"));
+		}
+		return user;
+
+	}
+	
+	
 }

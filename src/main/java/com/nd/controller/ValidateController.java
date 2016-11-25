@@ -40,7 +40,7 @@ public class ValidateController {
 		binder.setValidator(validateValidator);
 	}
 
-	@RequestMapping(value = "/nextdigit/v1/useraccess/validate", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/api/v1/useraccess/validate", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.OK)
 	public UserAccessResponse validate(final HttpServletRequest request, final HttpServletResponse response,
 			@RequestBody @Valid UserAccessRequest signInRequest) throws Exception {

@@ -25,7 +25,7 @@ public class ValidateValidator implements Validator {
 	}
 
 	private void validateInputRequest(UserAccessRequest validateRequest, Errors errors) {
-		if (StringUtils.isEmpty(validateRequest.getAccessToken())|| StringUtils.isEmpty(validateRequest.getRefreshToken())) {
+		if (StringUtils.isEmpty(validateRequest.getAccessToken()) && StringUtils.isEmpty(validateRequest.getRefreshToken())) {
 			errors.reject("INVALID_TOKEN", "Invalid access token");
 		}
 

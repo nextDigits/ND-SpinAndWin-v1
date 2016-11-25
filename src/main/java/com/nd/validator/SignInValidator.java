@@ -25,14 +25,14 @@ public class SignInValidator implements Validator {
 	}
 
 	private void validateInputRequest(UserAccessRequest signInRequest, Errors errors) {
-		if (StringUtils.isEmpty(signInRequest.getEmailId()) || StringUtils.isEmpty(signInRequest.getPhoneNumber())) {
+		if (StringUtils.isEmpty(signInRequest.getEmailId()) && StringUtils.isEmpty(signInRequest.getPhoneNumber())) {
 			errors.reject("INVALID_LOGIN_ID", "Email/phone number is null or empty");
 		}
 		if (StringUtils.isEmpty(signInRequest.getPassword())) {
 			errors.reject("INVALID_PASSWORD", "Password is null or empty");
 		}
 		if (StringUtils.isEmpty(signInRequest.getDeviceId())) {
-			errors.reject("INVALID_DEVICE_ID", "Password is null or empty");
+			errors.reject("INVALID_DEVICE_ID", "DeviceId is null or empty");
 		}
 	}
 }
