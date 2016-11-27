@@ -43,7 +43,7 @@ public class RewardsController {
 	  */
 	@RequestMapping(value = "/api/v1/rewards/view", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.OK)
-	public String signUp(@NotNull(message="User Id cannot be null or empty") @RequestParam(value = "userId", required = true) String userId,
+	public String viewRewardPoints(@NotNull(message="User Id cannot be null or empty") @RequestParam(value = "userId", required = true) String userId,
 			final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 		if(!StringUtils.isEmpty(userId)){
 			logger.error("User Id: " + userId);
