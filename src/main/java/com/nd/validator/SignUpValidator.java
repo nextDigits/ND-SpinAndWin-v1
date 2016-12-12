@@ -40,19 +40,6 @@ public class SignUpValidator implements Validator {
 		if (StringUtils.isEmpty(signUpRequest.getPhoneNumber())) {
 			errors.reject("INVALID_PHONE_NUMBER", "Phone number is null or empty");
 		}
-		
-		if (StringUtils.isEmpty(signUpRequest.getCountry())) {
-			errors.reject("INVALID_COUNTRY", "Country is null or empty");
-		}
-		
-		if (StringUtils.isEmpty(signUpRequest.getState())) {
-			errors.reject("INVALID_STATE", "State is null or empty");
-		}
-		
-		if (StringUtils.isEmpty(signUpRequest.getDeviceId())) {
-			errors.reject("INVALID_DEVICE_ID", "Device id is null or empty");
-		}
-		
 		if (StringUtils.isEmpty(signUpRequest.getPassword())) {
 			errors.reject("INVALID_PASSWORD", "Password is null or empty");
 		}else if (!(signUpRequest.getPassword().equals(signUpRequest.getVerifyPassword()))) {
