@@ -34,13 +34,10 @@ public class UserDaoImpl implements UserDao {
 			KeyFactory keyFactory = datastore.newKeyFactory().kind("USER");
 			Key key = datastore.allocateId(keyFactory.newKey());
 			Entity user = Entity.builder(key).set("userid", signUpRequest.getUserId())
-					.set("addresslineone", signUpRequest.getAddressFirstLine())
-					.set("addresslinetwo", signUpRequest.getAddressNextLine())
-					.set("appname", signUpRequest.getAppName()).set("country", signUpRequest.getCountry())
-					.set("deviceid", signUpRequest.getDeviceId()).set("emailid", signUpRequest.getEmailId())
-					.set("firstname", signUpRequest.getFirstName()).set("lastname", signUpRequest.getLastName())
-					.set("password", signUpRequest.getPassword()).set("phonenumber", signUpRequest.getPhoneNumber())
-					.set("state", signUpRequest.getState()).build();
+					.set("appname", signUpRequest.getAppName()).set("deviceid", signUpRequest.getDeviceId())
+					.set("emailid", signUpRequest.getEmailId()).set("firstname", signUpRequest.getFirstName())
+					.set("lastname", signUpRequest.getLastName()).set("phonenumber", signUpRequest.getPhoneNumber())
+					.build();
 			transaction.put(user);
 
 			// Set USER_ACCEESS
@@ -48,7 +45,8 @@ public class UserDaoImpl implements UserDao {
 			key = datastore.allocateId(keyFactory.newKey());
 			Entity userAccess = Entity.builder(key).set("userid", signUpRequest.getUserId())
 					.set("accesstoken", signUpRequest.getAccessToken())
-					.set("refreshtoken", signUpRequest.getRefreshToken()).build();
+					.set("refreshtoken", signUpRequest.getRefreshToken()).set("password", signUpRequest.getPassword())
+					.build();
 			transaction.put(userAccess);
 			transaction.commit();
 
@@ -61,13 +59,13 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public User getUser(String userId, String loginType, boolean getCompleteProfile) {
-		Query<Entity> query = Query.entityQueryBuilder().kind("USER").filter(PropertyFilter.eq(loginType, userId))
-				.build();
+	public User getUser(String id, String loginType, boolean getCompleteProfile) {
+		Query<Entity> query = Query.entityQueryBuilder().kind("USER").filter(PropertyFilter.eq(loginType, id)).build();
 		QueryResults<Entity> tasks = datastore.run(query);
-		User user = new User();
+		User user = null;
 		while (tasks.hasNext()) {
 			Entity task = tasks.next();
+			user = new User();
 			user.setUserId(task.getString("userid"));
 			if (getCompleteProfile) {
 				user.setAddresslineone(task.getString("addresslineon"));
@@ -95,10 +93,22 @@ public class UserDaoImpl implements UserDao {
 			Entity task = tasks.next();
 			user.setAccessToken(task.getString("accesstoken"));
 			user.setRefreshToken(task.getString("refreshtoken"));
+			user.setPassword(task.getString("password"));
 		}
 		return user;
 
 	}
-	
-	
+
+	@Override
+	public void updateUserAccessInfo(User user) {
+		// Set USER_ACCEESS
+		KeyFactory keyFactory = datastore.newKeyFactory().kind("USER_ACCESS");
+		Key key = datastore.allocateId(keyFactory.newKey());
+		//Entity task = Entity.newBuilder(datastore.get(taskKey)).set("priority", 5).build();
+		Entity userAccess = Entity.builder(key).set("userid", user.getUserId())
+				.set("accesstoken", user.getAccessToken()).set("refreshtoken", user.getRefreshToken())
+				.set("password", user.getPassword()).build();
+		 datastore.update(userAccess);
+	}
+
 }

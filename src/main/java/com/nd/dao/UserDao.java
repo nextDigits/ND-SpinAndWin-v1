@@ -17,4 +17,7 @@ public interface UserDao {
 	
 	//Get user information
 	User getUserAccessInfo(User user);
+
+	//Update user access
+	void updateUserAccessInfo(User user);
 }

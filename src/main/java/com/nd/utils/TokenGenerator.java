@@ -1,11 +1,11 @@
 package com.nd.utils;
 
-import java.time.Instant;
+import java.util.Random;
 import java.util.UUID;
 import org.springframework.stereotype.Component;
 
 /**
- * @author Kiran
+ * @author Jyotsna
  *
  */
 
@@ -17,8 +17,9 @@ public class TokenGenerator {
 		return token.toString();
 	}
 
-	public String generateUserId(String appName,String phoneNumber, String firstName) {
-		return appName.concat(phoneNumber.replace(phoneNumber.substring(0, 4), String.valueOf(Instant.now().toEpochMilli()))
-				.concat(firstName.toUpperCase()));
+	public String generateUserId(String appName,String phoneNumber) {
+		Random random = new Random(System.nanoTime());
+		String randomInt = String.valueOf(random.nextInt(10000));
+		return appName.concat(phoneNumber.replace(phoneNumber.substring(0, 4), randomInt));
 	}
 }
