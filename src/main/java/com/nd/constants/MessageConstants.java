@@ -12,4 +12,10 @@ public interface MessageConstants {
 	
 	public final String REDEEMREWARDS_RESPONSE_FAILURE="Redeem failed";
 	
+	public final String MAILGUN_API_KEY="";
+	
+	public final String MAILGUN_DOMAIN_NAME="";
+	
+	public final String  MAILGUN_DOMAIN="";
+	
 }

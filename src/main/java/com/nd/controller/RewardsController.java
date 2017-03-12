@@ -36,7 +36,7 @@ public class RewardsController {
 	static Logger logger = Logger.getLogger(RewardsController.class);
 	
 	/**
-	  * Returns the available reward points of a user at any given point of time.
+	  * Returns the available reward points of a user atO any given point of time.
 	  * 
 	  * @param userId
 	  * @return available points
@@ -52,5 +52,4 @@ public class RewardsController {
 		logger.error("User Id null or empty");
 		return null;
 	}
-
 }
