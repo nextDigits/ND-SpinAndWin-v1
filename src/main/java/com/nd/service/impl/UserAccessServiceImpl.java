@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.nd.constants.MessageConstants;
+import com.nd.dao.StaticContentDao;
 import com.nd.dao.UserDao;
 import com.nd.entities.User;
 import com.nd.exception.CloverAppException;
@@ -22,34 +23,33 @@ public class UserAccessServiceImpl implements UserAccessService {
 	@Autowired
 	public UserDao userDao;
 
+	@Autowired
+	public StaticContentDao staticContentDao;
+
 	@Override
 	public UserAccessResponse signUp(UserAccessRequest signUpRequest) throws Exception {
 		UserAccessResponse signUpResponse = new UserAccessResponse();
-		// Check if user exists or not
-		User user = userDao.getUser(signUpRequest.getPhoneNumber(), "phonenumber", false);
-		if (null == user) {
-			user = userDao.getUser(signUpRequest.getEmailId(), "emailid", false);
-		}
-		if (null == user) {
-			// Create userId,accessToken and refreshToken
-			signUpRequest.setUserId(
-					tokenGenerator.generateUserId(signUpRequest.getAppName(), signUpRequest.getPhoneNumber()));
-			signUpRequest.setAccessToken(tokenGenerator.generateToken());
-			signUpRequest.setRefreshToken(tokenGenerator.generateToken());
 
-			// Save user to user table
-			userDao.saveUser(signUpRequest);
+		String counter = staticContentDao.getStaticContent("counter");
 
-			// Set response
-			signUpResponse.setUserId(signUpRequest.getUserId());
-			signUpResponse.setStatus(MessageConstants.SUCCESS_STATUS);
-			signUpResponse.setResponseMessage(MessageConstants.SIGNUP_RESPONSE_MESSAGE);
-			signUpResponse.setValidationRequired("Phone");
-			signUpResponse.setAccessToken(signUpRequest.getAccessToken());
-			signUpResponse.setRefreshToken(signUpRequest.getRefreshToken());
-		} else {
-			throw new CloverAppException("User already exists");
-		}
+		// Update counter
+		staticContentDao.updateStaticContent("counter", String.valueOf(Integer.valueOf(counter) + 1));
+
+		// Create userId,accessToken and refreshToken
+		signUpRequest.setUserId(tokenGenerator.generateUserId("CL", counter));
+		signUpRequest.setAccessToken(tokenGenerator.generateToken());
+		signUpRequest.setRefreshToken(tokenGenerator.generateToken());
+
+		// Save user to user table
+		userDao.saveUser(signUpRequest);
+
+		// Set response
+		signUpResponse.setUserId(signUpRequest.getUserId());
+		signUpResponse.setStatus(MessageConstants.SUCCESS_STATUS);
+		signUpResponse.setResponseMessage(MessageConstants.SIGNUP_RESPONSE_MESSAGE);
+		signUpResponse.setValidationRequired("Phone");
+		signUpResponse.setAccessToken(signUpRequest.getAccessToken());
+		signUpResponse.setRefreshToken(signUpRequest.getRefreshToken());
 		return signUpResponse;
 	}
 
@@ -63,16 +63,16 @@ public class UserAccessServiceImpl implements UserAccessService {
 			user = userDao.getUser(signInRequest.getPhoneNumber(), "phonenumber", false);
 		}
 		user = userDao.getUserAccessInfo(user);
-		if(StringUtils.equals(signInRequest.getPassword(), user.getPassword())){
+		if (StringUtils.equals(signInRequest.getPassword(), user.getPassword())) {
 			user.setAccessToken(tokenGenerator.generateToken());
 			userDao.updateUserAccessInfo(user);
 			signInResponse.setUserId(user.getUserId());
 			signInResponse.setAccessToken(user.getAccessToken());
 			signInResponse.setResponseMessage(MessageConstants.SIGNUP_RESPONSE_MESSAGE);
-		}else{
+		} else {
 			throw new CloverAppException("Invalid password");
 		}
-		
+
 		return signInResponse;
 	}
 

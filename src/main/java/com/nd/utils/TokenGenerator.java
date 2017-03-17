@@ -2,6 +2,7 @@ package com.nd.utils;
 
 import java.util.Random;
 import java.util.UUID;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 /**
@@ -17,9 +18,8 @@ public class TokenGenerator {
 		return token.toString();
 	}
 
-	public String generateUserId(String appName,String phoneNumber) {
-		Random random = new Random(System.nanoTime());
-		String randomInt = String.valueOf(random.nextInt(10000));
-		return appName.concat(phoneNumber.replace(phoneNumber.substring(0, 4), randomInt));
+	public String generateUserId(String userType, String counter) {
+		Random random = new Random();
+		return StringUtils.join(userType,"-9",counter,String.valueOf(random.nextInt(10000)));
 	}
 }
